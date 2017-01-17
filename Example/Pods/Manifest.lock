@@ -1,0 +1,16 @@
+PODS:
+  - MCAssertReflectiveEqual (0.1.0)
+
+DEPENDENCIES:
+  - MCAssertReflectiveEqual (from `../`)
+
+EXTERNAL SOURCES:
+  MCAssertReflectiveEqual:
+    :path: ../
+
+SPEC CHECKSUMS:
+  MCAssertReflectiveEqual: 0d7b9993aac0c36f03e8aa1dab038b441ce044a2
+
+PODFILE CHECKSUM: ac55c721c2acd72a455c34afab30d4ae42646612
+
+COCOAPODS: 1.2.0.rc.1

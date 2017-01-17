@@ -1,0 +1,6 @@
+framework module MCAssertReflectiveEqual {
+  umbrella header "MCAssertReflectiveEqual-umbrella.h"
+
+  export *
+  module * { export * }
+}
