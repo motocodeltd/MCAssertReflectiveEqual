@@ -1,0 +1,6 @@
+use_frameworks!
+target 'MCAssertReflectiveEqual_Tests' do
+  pod 'MCAssertReflectiveEqual', :path => '../'
+  
+  
+end
