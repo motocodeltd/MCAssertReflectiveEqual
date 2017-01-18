@@ -193,7 +193,7 @@ class MCAssertReflectiveEqualTest : XCTestCase {
         XCTAssertFalse(areEqual((1, 1), (1, 2)))
     }
     
-    func testTwoTuplesOfDifferentSizeAreNotEquak() {
+    func testTwoTuplesOfDifferentSizeAreNotEqual() {
         XCTAssertFalse(areEqual((1, 2, 1), (1, 2)))
     }
     
