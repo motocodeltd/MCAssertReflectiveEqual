@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MCAssertReflectiveEqual'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of MCAssertReflectiveEqual.'
+  s.version          = '0.0.1'
+  s.summary          = 'An equality assertion utility using reflection for swift tests'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,13 +18,15 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Tests are good. Writing code just for the purpose of testing is not good if you can avoid it. MCAssertReflectiveEqual works just like XCTest XCAssertEqual but doesn't require Equatable candidates - it uses reflection to evaluate if two structs, enums, primitives etc are equal or not. Don't write that equals function on your production code if you don't need it - let MCAssertReflectiveEqual do the job for you'
+
+
                        DESC
 
-  s.homepage         = 'https://github.com/<GITHUB_USERNAME>/MCAssertReflectiveEqual'
+  s.homepage         = 'https://github.com/motocodeltd/MCAssertReflectiveEqual'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Stefanos Zachariadis' => 'stefanos@zachariadis.net' }
+  s.author           = { 'Stefanos Zachariadis' => 'first name at last name dot net' }
   s.source           = { :git => 'https://github.com/<GITHUB_USERNAME>/MCAssertReflectiveEqual.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 

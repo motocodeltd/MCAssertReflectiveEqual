@@ -1,20 +1,16 @@
 # MCAssertReflectiveEqual
 
-[![CI Status](http://img.shields.io/travis/Stefanos Zachariadis/MCAssertReflectiveEqual.svg?style=flat)](https://travis-ci.org/Stefanos Zachariadis/MCAssertReflectiveEqual)
 [![Version](https://img.shields.io/cocoapods/v/MCAssertReflectiveEqual.svg?style=flat)](http://cocoapods.org/pods/MCAssertReflectiveEqual)
 [![License](https://img.shields.io/cocoapods/l/MCAssertReflectiveEqual.svg?style=flat)](http://cocoapods.org/pods/MCAssertReflectiveEqual)
 [![Platform](https://img.shields.io/cocoapods/p/MCAssertReflectiveEqual.svg?style=flat)](http://cocoapods.org/pods/MCAssertReflectiveEqual)
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
 
 ## Installation
 
 MCAssertReflectiveEqual is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+it, simply add the following line to your Podfile. It really makes sense to reference it in your test target only:
 
 ```ruby
 pod "MCAssertReflectiveEqual"
@@ -22,7 +18,7 @@ pod "MCAssertReflectiveEqual"
 
 ## Author
 
-Stefanos Zachariadis, stefanos@zachariadis.net
+Stefanos Zachariadis, first name at last name dot net, [[https://moto.co.de]https://moto.co.de]
 
 ## License
 
