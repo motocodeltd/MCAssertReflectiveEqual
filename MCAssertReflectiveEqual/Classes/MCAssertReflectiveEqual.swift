@@ -25,7 +25,7 @@ private let optionalStringEqualsFunction: MCOptionalStringEqualsFunction = { (ex
     XCTAssertEqual(expected, actual, message, file: file, line: line)
 }
 
-
+//todo: better error messages
 
 public func MCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
                        file: StaticString = #file,
@@ -71,6 +71,8 @@ private func MCAssertReflectiveEqual(_ expected: Any,
             } else if(expectedMirror.displayStyle == actualMirror.displayStyle &&
                 (expectedMirror.displayStyle == .struct || expectedMirror.displayStyle == .class)) {
                 return
+            } else if(expectedMirror.displayStyle == actualMirror.displayStyle && expectedMirror.displayStyle == .enum) {
+                optionalStringEqualsFunction(x.description, a.description, "\(expected) not equal to \(actual)", file, line)
             }
             else if(expectedMirror.description.contains("->")) {
                 print("ignoring closures")

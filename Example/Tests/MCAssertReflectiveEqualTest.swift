@@ -4,6 +4,10 @@ import MCAssertReflectiveEqual
 
 class MCAssertReflectiveEqualTest : XCTestCase {
     
+    private enum MyEnum {
+        case A, B
+    }
+    
     private struct EmptyStruct {
         
     }
@@ -203,6 +207,14 @@ class MCAssertReflectiveEqualTest : XCTestCase {
     
     func testTwoStructsWithValAreNotEqual() {
         XCTAssertFalse(areEqual(StructWithVal(3), StructWithVal(1)))
+    }
+    
+    func testTwoEnumsAreEqual() {
+        XCTAssertTrue(areEqual(MyEnum.A, MyEnum.A))
+    }
+    
+    func testTwoEnumsAreNotEqual() {
+        XCTAssertFalse(areEqual(MyEnum.A, MyEnum.B))
     }
     
     func testMatchingLoops() {
