@@ -76,9 +76,9 @@ private func MCAssertReflectiveEqual(_ expected: Any,
     var actualChildren = actualMirror.children
     countCheckFunction(expectedChildren.count, actualChildren.count, "\(expectedDescription)\nhas \(expectedChildren.count) child fields.\n\(actualDescription)\nhas \(actualChildren.count)", file, line)
     
-    let x = expected as AnyObject
-    let a = actual as AnyObject
-    if(x === a) {
+    let expectedAsObject = expected as AnyObject
+    let actualAsObject = actual as AnyObject
+    if(expectedAsObject === actualAsObject) {
         return
     }
     
@@ -90,7 +90,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                 (expectedMirror.displayStyle == .struct || expectedMirror.displayStyle == .class)) {
                 return
             } else if(expectedMirror.displayStyle == actualMirror.displayStyle && expectedMirror.displayStyle == .enum) {
-                optionalStringEqualsFunction(x.description, a.description, "\(expectedDescription)\nnot equal to\n\(actualDescription)", file, line)
+                optionalStringEqualsFunction(expectedAsObject.description, actualAsObject.description, "\(expectedDescription)\nnot equal to\n\(actualDescription)", file, line)
             }
             else if(expectedMirror.description.contains("->")) {
                 print("ignoring closures in \n\(expectedDescription)\nand\n\(actualDescription)")
