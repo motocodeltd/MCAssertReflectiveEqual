@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/cocoapods/l/MCAssertReflectiveEqual.svg?style=flat)](http://cocoapods.org/pods/MCAssertReflectiveEqual)
 [![Platform](https://img.shields.io/cocoapods/p/MCAssertReflectiveEqual.svg?style=flat)](http://cocoapods.org/pods/MCAssertReflectiveEqual)
 
-MCAssertReflectiveEqual is a function that can be used to write swift test assertions. It works very similarly to XCTAssertEqual
+MCAssertReflectiveEqual is a function that can be used to write swift test assertions. It works very similarly to XCTest's XCTAssertEqual
 but doesn't require Equatable items and uses reflection instead. Therefore you don't need to write 
 neither equals functions that your production code does not require, and you don't need to assert multiple
  individual fields. 
