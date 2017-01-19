@@ -40,6 +40,8 @@ MCAssertReflectiveEqual is available through [CocoaPods](http://cocoapods.org). 
 it, simply add the following line to your Podfile. It really only makes sense to reference it in your test target:
 
 ```ruby
+use_frameworks!
+
 pod "MCAssertReflectiveEqual"
 ```
 
