@@ -27,7 +27,7 @@ Tests are good. Writing code just for the purpose of testing is not good if you 
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Stefanos Zachariadis' => 'first name at last name dot net' }
-  s.source           = { :git => 'https://github.com/<GITHUB_USERNAME>/MCAssertReflectiveEqual.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/motocodeltd/MCAssertReflectiveEqual.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
