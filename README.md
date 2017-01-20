@@ -45,7 +45,7 @@ class ClassWithValTest : XCTestCase {
 
 ```
 
-More examples in [MCAssertReflectiveEqualTest.swift](blob/master/Example/Tests/MCAssertReflectiveEqualTest.swift)
+More examples in [MCAssertReflectiveEqualTest.swift](Example/Tests/MCAssertReflectiveEqualTest.swift)
 
 ## Installation
 
