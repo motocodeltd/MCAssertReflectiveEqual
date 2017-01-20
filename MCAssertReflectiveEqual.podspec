@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'MCAssertReflectiveEqual'
   s.version          = '0.0.1'
-  s.summary          = 'An equality assertion utility using reflection for swift tests'
+  s.summary          = 'An equality assertion utility using reflection for swift tests.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 Tests are good. Writing production code just for the purpose of testing is not good if you can avoid it.
 MCAssertReflectiveEqual works just like XCTest's XCAssertEqual but doesn't require Equatable items - it uses reflection to evaluate if two structs, classes, enums, primitives etc are equal or not. Don't write that equals function in your production code if you don't need it. Don't assert multiple fields in your tests
- - let MCAssertReflectiveEqual do the job for you and make tests easier to read write.'
+ - let MCAssertReflectiveEqual do the job for you and make tests easier to read write. Works similarly to other languages' assert reflective equals (assertRefletiveEquals).
 
 
                        DESC
