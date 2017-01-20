@@ -18,7 +18,9 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-Tests are good. Writing code just for the purpose of testing is not good if you can avoid it. MCAssertReflectiveEqual works just like XCTest XCAssertEqual but doesn't require Equatable candidates - it uses reflection to evaluate if two structs, enums, primitives etc are equal or not. Don't write that equals function on your production code if you don't need it - let MCAssertReflectiveEqual do the job for you'
+Tests are good. Writing production code just for the purpose of testing is not good if you can avoid it.
+MCAssertReflectiveEqual works just like XCTest's XCAssertEqual but doesn't require Equatable items - it uses reflection to evaluate if two structs, classes, enums, primitives etc are equal or not. Don't write that equals function in your production code if you don't need it. Don't assert multiple fields in your tests
+ - let MCAssertReflectiveEqual do the job for you and make tests easier to read write.'
 
 
                        DESC
@@ -26,7 +28,7 @@ Tests are good. Writing code just for the purpose of testing is not good if you 
   s.homepage         = 'https://github.com/motocodeltd/MCAssertReflectiveEqual'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Stefanos Zachariadis' => 'first name at last name dot net' }
+  s.author           = { 'Stefanos Zachariadis, motocode ltd' => 'first name at last name dot net' }
   s.source           = { :git => 'https://github.com/motocodeltd/MCAssertReflectiveEqual.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
