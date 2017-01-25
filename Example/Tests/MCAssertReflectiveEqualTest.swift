@@ -38,6 +38,10 @@ class MCAssertReflectiveEqualTest : XCTestCase {
     
     private var equal:Bool?
     
+    private func failFunction(message: String, file: StaticString, line: UInt) {
+        equal = false
+    }
+    
     private func typeCheckFunction(expected: Any.Type, actual: Any.Type, message: String, file: StaticString, line: UInt) {
         if let equal = equal {
             if(!equal) {
@@ -233,7 +237,8 @@ class MCAssertReflectiveEqualTest : XCTestCase {
                           typeCheckFunction: typeCheckFunction,
                           countCheckFunction: countCheckFunction,
                           nsObjectCheckFunction: nsObjectCheckFunction,
-                          optionalStringEqualsFunction: optionalStringFunction)
+                          optionalStringEqualsFunction: optionalStringFunction,
+                          failFunction: failFunction)
         return equal!
     }
 }

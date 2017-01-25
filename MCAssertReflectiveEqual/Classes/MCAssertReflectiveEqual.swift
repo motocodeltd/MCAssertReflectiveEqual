@@ -25,19 +25,31 @@ private let optionalStringEqualsFunction: MCOptionalStringEqualsFunction = { (ex
     XCTAssertEqual(expected, actual, message, file: file, line: line)
 }
 
+typealias MCFailFunction = (String, StaticString, UInt) -> Void
+
+private let failFunction: MCFailFunction = { (message, file, line) in
+    XCTFail(message, file: file, line: line)
+}
+
 public func MCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
                        file: StaticString = #file,
                        line: UInt = #line,
-                       typeCheckFunction:MCTypeCheckFunction = typeCheckFunction,
-                       countCheckFunction:MCCountCheckFunction = countCheckFunction,
-                       nsObjectCheckFunction:MCNSObjectEqualsFunction = NSObjectEqualsFunction,
-                       optionalStringEqualsFunction:MCOptionalStringEqualsFunction = optionalStringEqualsFunction) {
+                       typeCheckFunction: MCTypeCheckFunction = typeCheckFunction,
+                       countCheckFunction: MCCountCheckFunction = countCheckFunction,
+                       nsObjectCheckFunction: MCNSObjectEqualsFunction = NSObjectEqualsFunction,
+                       optionalStringEqualsFunction: MCOptionalStringEqualsFunction = optionalStringEqualsFunction,
+                       failFunction: MCFailFunction = failFunction) {
     var expectedVisited:[AnyObject] = []
     var actualVisited:[AnyObject] = []
     
     MCAssertReflectiveEqual(expected, actual, expectedVisited: &expectedVisited, actualVisited: &actualVisited,
                             expectedDescription: "", actualDescription: "", depth: 0,
-                            file: file, line: line, typeCheckFunction: typeCheckFunction, countCheckFunction: countCheckFunction, nsObjectCheckFunction: nsObjectCheckFunction, optionalStringEqualsFunction: optionalStringEqualsFunction)
+                            file: file, line: line,
+                            typeCheckFunction: typeCheckFunction,
+                            countCheckFunction: countCheckFunction,
+                            nsObjectCheckFunction: nsObjectCheckFunction,
+                            optionalStringEqualsFunction: optionalStringEqualsFunction,
+                            failFunction: failFunction)
 }
 
 private func appendItemDescription(_ item: Any, previousDescription: String, depth: Int) -> String {
@@ -61,10 +73,11 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                                      depth: Int,
                                      file: StaticString,
                                      line: UInt,
-                                     typeCheckFunction:MCTypeCheckFunction = typeCheckFunction,
-                                     countCheckFunction:MCCountCheckFunction = countCheckFunction,
-                                     nsObjectCheckFunction:MCNSObjectEqualsFunction = NSObjectEqualsFunction,
-                                     optionalStringEqualsFunction:MCOptionalStringEqualsFunction = optionalStringEqualsFunction) {
+                                     typeCheckFunction: MCTypeCheckFunction,
+                                     countCheckFunction: MCCountCheckFunction,
+                                     nsObjectCheckFunction: MCNSObjectEqualsFunction,
+                                     optionalStringEqualsFunction: MCOptionalStringEqualsFunction,
+                                     failFunction: MCFailFunction) {
     
     let expectedDescription = appendItemDescription(expected, previousDescription: expectedDescription, depth: depth)
     let actualDescription = appendItemDescription(actual, previousDescription: actualDescription, depth: depth)
@@ -96,7 +109,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                 print("ignoring closures in \n\(expectedDescription)\nand\n\(actualDescription)")
             }
             else {
-                XCTFail("cannot compare\n\(expectedDescription)\n\(actualDescription)", file: file, line: line)
+                failFunction("cannot compare\n\(expectedDescription)\n\(actualDescription)", file, line)
             }
         } else {
             while(!expectedChildren.isEmpty) {
@@ -128,10 +141,13 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                                         actualDescription: actualDescription,
                                         depth: depth + 1,
                                         file: file, line: line,
-                                        typeCheckFunction: typeCheckFunction, countCheckFunction: countCheckFunction, nsObjectCheckFunction: nsObjectCheckFunction, optionalStringEqualsFunction: optionalStringEqualsFunction)
+                                        typeCheckFunction: typeCheckFunction, countCheckFunction: countCheckFunction, nsObjectCheckFunction: nsObjectCheckFunction, optionalStringEqualsFunction: optionalStringEqualsFunction, failFunction: failFunction)
                 _ = expectedVisited.popLast()
                 _ = actualVisited.popLast()
             }
         }
+    }
+    else {
+        failFunction("\(expectedDescription) has \(expectedChildren.count) but \(actualDescription) has \(actualChildren.count)", file, line)
     }
 }
