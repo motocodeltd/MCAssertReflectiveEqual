@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 import MCAssertReflectiveEqual
 
-class MCAssertReflectiveEqualTest : XCTestCase {
+ class MCAssertReflectiveEqualTest : XCTestCase {
     
     private enum MyEnum {
         case A, B
