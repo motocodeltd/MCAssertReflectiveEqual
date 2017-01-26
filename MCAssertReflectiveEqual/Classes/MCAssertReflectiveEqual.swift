@@ -74,7 +74,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
     let actualDescription = appendItemDescription(actual, previousDescription: actualDescription, depth: depth)
     let expectedMirror = Mirror(reflecting: expected)
     let actualMirror = Mirror(reflecting: actual)
-    typeCheckFunction(expectedMirror.subjectType, actualMirror.subjectType, "Types not the same expected: \(expectedDescription)\ngot:\n\(actualDescription)", file, line)
+    typeCheckFunction(expectedMirror.subjectType, actualMirror.subjectType, "Types not the same expected: \(expectedDescription) is a \(expectedMirror.subjectType) \ngot:\n\(actualDescription) which is a \(actualMirror.subjectType)", file, line)
     
     let expectedAsObject = expected as AnyObject
     let actualAsObject = actual as AnyObject
