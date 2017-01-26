@@ -26,12 +26,12 @@ private let failFunction: MCFailFunction = { (message, file, line) in
 }
 
 public func MCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
-                       file: StaticString = #file,
-                       line: UInt = #line,
-                       typeCheckFunction: MCTypeCheckFunction = typeCheckFunction,
-                       nsObjectCheckFunction: MCNSObjectEqualsFunction = NSObjectEqualsFunction,
-                       optionalStringEqualsFunction: MCOptionalStringEqualsFunction = optionalStringEqualsFunction,
-                       failFunction: MCFailFunction = failFunction) {
+                                    file: StaticString = #file,
+                                    line: UInt = #line,
+                                    typeCheckFunction: MCTypeCheckFunction = typeCheckFunction,
+                                    nsObjectCheckFunction: MCNSObjectEqualsFunction = NSObjectEqualsFunction,
+                                    optionalStringEqualsFunction: MCOptionalStringEqualsFunction = optionalStringEqualsFunction,
+                                    failFunction: MCFailFunction = failFunction) {
     var expectedVisited:[AnyObject] = []
     var actualVisited:[AnyObject] = []
     
