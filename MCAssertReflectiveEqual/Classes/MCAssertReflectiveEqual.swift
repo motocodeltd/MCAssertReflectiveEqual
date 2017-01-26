@@ -92,8 +92,8 @@ private func MCAssertReflectiveEqual(_ expected: Any,
     }
     
     if(expectedChildren.count == 0) {
-        if let x = expected as? NSObject, let a = actual as? NSObject {
-            nsObjectCheckFunction(x, a, "\(expectedDescription)\nnot equal to\n\(actualDescription)", file, line)
+        if let expectedNsObj = expected as? NSObject, let actualNsObj = actual as? NSObject {
+            nsObjectCheckFunction(expectedNsObj, actualNsObj, "\(expectedDescription)\nnot equal to\n\(actualDescription)", file, line)
         } else if(expectedMirror.displayStyle == actualMirror.displayStyle &&
             (expectedMirror.displayStyle == .struct || expectedMirror.displayStyle == .class)) {
             return
