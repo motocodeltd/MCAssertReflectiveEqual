@@ -99,10 +99,10 @@ import MCAssertReflectiveEqual
         XCTAssertTrue(areEqual(a, b))
     }
     
-    func testTwoNilsOfDifferentTypeAreEqual() {
+    func testTwoNilsOfDifferentTypeCoeercedAreNotEqual() {
         let a:String? = nil
         let b:Int? = nil
-        XCTAssertFalse(areEqual(a, b))
+        XCTAssertFalse(areEqual(a as Any, b as Any))
     }
     
     func testANilIsNotEqualToAValue() {
@@ -188,8 +188,8 @@ import MCAssertReflectiveEqual
         XCTAssertFalse(areEqual((1, 1), (1, 2)))
     }
     
-    func testTwoTuplesOfDifferentSizeAreNotEqual() {
-        XCTAssertFalse(areEqual((1, 2, 1), (1, 2)))
+    func testTwoTuplesOfDifferentSizesCoercedAreNotEqual() {
+        XCTAssertFalse(areEqual((1, 2, 1) as Any, (1, 2) as Any))
     }
     
     func testTwoEmptyStructsAreEqual() {
@@ -223,7 +223,7 @@ import MCAssertReflectiveEqual
     }
     
     
-    private func areEqual (_ expected: Any, _ actual: Any) -> Bool {
+    private func areEqual<T>(_ expected: T, _ actual: T) -> Bool {
         MCAssertReflectiveEqual(expected, actual,
                           typeCheckFunction: typeCheckFunction,
                           nsObjectCheckFunction: nsObjectCheckFunction,
