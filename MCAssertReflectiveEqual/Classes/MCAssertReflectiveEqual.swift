@@ -116,8 +116,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                 return obj === actualChild.value as AnyObject
             })
             
-            if(indexOfActualChildIfAlreadyVisited != nil || indexOfExpectedChildIfAlreadyVisited != nil)
-            {
+            if(indexOfActualChildIfAlreadyVisited != nil || indexOfExpectedChildIfAlreadyVisited != nil) {
                 if(indexOfActualChildIfAlreadyVisited == indexOfExpectedChildIfAlreadyVisited && indexOfExpectedChildIfAlreadyVisited != -1) {
                     print("\(expectedDescription)\nand\(actualDescription)\n are matching looping objects")
                     return
