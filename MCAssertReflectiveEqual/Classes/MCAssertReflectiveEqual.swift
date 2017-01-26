@@ -98,7 +98,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
             (expectedMirror.displayStyle == .struct || expectedMirror.displayStyle == .class)) {
             return
         } else if(expectedMirror.displayStyle == actualMirror.displayStyle && expectedMirror.displayStyle == .enum) {
-            optionalStringEqualsFunction(expectedAsObject.description, actualAsObject.description, "\(expectedDescription)\nnot equal to\n\(actualDescription)", file, line)
+            optionalStringEqualsFunction(String(describing: expected), String(describing: actual), "\(expectedDescription)\nnot equal to\n\(actualDescription)", file, line)
         }
         else if(expectedMirror.description.contains("->")) {
             print("ignoring closures in \n\(expectedDescription)\nand\n\(actualDescription)")
