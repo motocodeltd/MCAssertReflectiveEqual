@@ -7,12 +7,6 @@ private let typeCheckFunction:MCTypeCheckFunction = { (expected, actual, message
     XCTAssertTrue(expected == actual, message, file: file, line:line)
 }
 
-typealias MCCountCheckFunction = (IntMax, IntMax, String, StaticString, UInt) -> Void
-
-private let countCheckFunction:MCCountCheckFunction = { (expected, actual, message, file, line) in
-    XCTAssertEqual(expected, actual, message, file: file, line: line)
-}
-
 typealias MCNSObjectEqualsFunction = (NSObject, NSObject, String, StaticString, UInt) -> Void
 
 private let NSObjectEqualsFunction:MCNSObjectEqualsFunction = { (expected, actual, message, file, line) in
@@ -35,7 +29,6 @@ public func MCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
                        file: StaticString = #file,
                        line: UInt = #line,
                        typeCheckFunction: MCTypeCheckFunction = typeCheckFunction,
-                       countCheckFunction: MCCountCheckFunction = countCheckFunction,
                        nsObjectCheckFunction: MCNSObjectEqualsFunction = NSObjectEqualsFunction,
                        optionalStringEqualsFunction: MCOptionalStringEqualsFunction = optionalStringEqualsFunction,
                        failFunction: MCFailFunction = failFunction) {
@@ -46,7 +39,6 @@ public func MCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
                             expectedDescription: "", actualDescription: "", depth: 0,
                             file: file, line: line,
                             typeCheckFunction: typeCheckFunction,
-                            countCheckFunction: countCheckFunction,
                             nsObjectCheckFunction: nsObjectCheckFunction,
                             optionalStringEqualsFunction: optionalStringEqualsFunction,
                             failFunction: failFunction)
@@ -74,7 +66,6 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                                      file: StaticString,
                                      line: UInt,
                                      typeCheckFunction: MCTypeCheckFunction,
-                                     countCheckFunction: MCCountCheckFunction,
                                      nsObjectCheckFunction: MCNSObjectEqualsFunction,
                                      optionalStringEqualsFunction: MCOptionalStringEqualsFunction,
                                      failFunction: MCFailFunction) {
@@ -94,8 +85,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
     
     var expectedChildren = expectedMirror.children
     var actualChildren = actualMirror.children
-    countCheckFunction(expectedChildren.count, actualChildren.count, "\(expectedDescription)\nhas \(expectedChildren.count) child fields.\n\(actualDescription)\nhas \(actualChildren.count)", file, line)
-
+    
     guard expectedChildren.count == actualChildren.count else {
         failFunction("\(expectedDescription) has \(expectedChildren.count) but \(actualDescription) has \(actualChildren.count)", file, line)
         return
@@ -146,7 +136,10 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                                     actualDescription: actualDescription,
                                     depth: depth + 1,
                                     file: file, line: line,
-                                    typeCheckFunction: typeCheckFunction, countCheckFunction: countCheckFunction, nsObjectCheckFunction: nsObjectCheckFunction, optionalStringEqualsFunction: optionalStringEqualsFunction, failFunction: failFunction)
+                                    typeCheckFunction: typeCheckFunction,
+                                    nsObjectCheckFunction: nsObjectCheckFunction,
+                                    optionalStringEqualsFunction: optionalStringEqualsFunction,
+                                    failFunction: failFunction)
             _ = expectedVisited.popLast()
             _ = actualVisited.popLast()
         }

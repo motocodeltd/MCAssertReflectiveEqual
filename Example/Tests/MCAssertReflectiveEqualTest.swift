@@ -51,15 +51,6 @@ import MCAssertReflectiveEqual
         equal = actual == expected
     }
     
-    private func countCheckFunction(expected: IntMax, actual: IntMax, message: String, file: StaticString, line: UInt) {
-        if let equal = equal {
-            if(!equal) {
-                return
-            }
-        }
-        equal = actual == expected
-    }
-    
     private func nsObjectCheckFunction(expected: NSObject, actual: NSObject, message: String, file: StaticString, line: UInt) {
         if let equal = equal {
             if(!equal) {
@@ -235,7 +226,6 @@ import MCAssertReflectiveEqual
     private func areEqual (_ expected: Any, _ actual: Any) -> Bool {
         MCAssertReflectiveEqual(expected, actual,
                           typeCheckFunction: typeCheckFunction,
-                          countCheckFunction: countCheckFunction,
                           nsObjectCheckFunction: nsObjectCheckFunction,
                           optionalStringEqualsFunction: optionalStringFunction,
                           failFunction: failFunction)
