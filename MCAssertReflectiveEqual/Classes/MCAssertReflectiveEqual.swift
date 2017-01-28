@@ -111,7 +111,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                 let expectedChildAsObject = expectedChild.value as AnyObject
                 let actualChildAsObject = actualChild.value as AnyObject
                 let expectedHasBeenVisited = !expectedVisited.insert(ObjectIdentifier(expectedChildAsObject)).inserted
-                let actualHasBeenVisited = !actualVisited.insert(ObjectIdentifier(actualAsObject)).inserted
+                let actualHasBeenVisited = !actualVisited.insert(ObjectIdentifier(actualChildAsObject)).inserted
                 
                 if(expectedHasBeenVisited || actualHasBeenVisited) {
                     if(expectedHasBeenVisited == actualHasBeenVisited) {
