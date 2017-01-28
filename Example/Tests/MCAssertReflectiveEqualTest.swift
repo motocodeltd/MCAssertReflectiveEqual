@@ -20,6 +20,10 @@ import MCAssertReflectiveEqual
         var loop:Loopy?
     }
     
+    private struct LoopyStruct {
+        var loop: Any?
+    }
+    
     private class ClassWithVal {
         var val: Int
         
@@ -40,15 +44,6 @@ import MCAssertReflectiveEqual
     
     private func failFunction(message: String, file: StaticString, line: UInt) {
         equal = false
-    }
-    
-    private func typeCheckFunction(expected: Any.Type, actual: Any.Type, message: String, file: StaticString, line: UInt) {
-        if let equal = equal {
-            if(!equal) {
-                return
-            }
-        }
-        equal = actual == expected
     }
     
     private func nsObjectCheckFunction(expected: NSObject, actual: NSObject, message: String, file: StaticString, line: UInt) {
@@ -222,13 +217,22 @@ import MCAssertReflectiveEqual
         XCTAssertTrue(areEqual(a, b))
     }
     
+    func testStructLoops() {
+        var a = LoopyStruct()
+        a.loop = a
+        
+        var b = LoopyStruct()
+        b.loop = b
+        
+        XCTAssertTrue(areEqual(a, b))
+    }
+    
     
     private func areEqual<T>(_ expected: T, _ actual: T) -> Bool {
         MCAssertReflectiveEqual(expected, actual,
-                          typeCheckFunction: typeCheckFunction,
                           nsObjectCheckFunction: nsObjectCheckFunction,
                           optionalStringEqualsFunction: optionalStringFunction,
                           failFunction: failFunction)
-        return equal!
+        return equal ?? true
     }
 }
