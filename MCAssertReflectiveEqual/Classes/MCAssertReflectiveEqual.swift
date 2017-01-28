@@ -25,8 +25,8 @@ public func MCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
                                     nsObjectCheckFunction: MCNSObjectEqualsFunction = NSObjectEqualsFunction,
                                     optionalStringEqualsFunction: MCOptionalStringEqualsFunction = optionalStringEqualsFunction,
                                     failFunction: MCFailFunction = failFunction) {
-    var expectedVisited:[AnyObject] = []
-    var actualVisited:[AnyObject] = []
+    var expectedVisited = Set<ObjectIdentifier>()
+    var actualVisited = Set<ObjectIdentifier>()
     
     MCAssertReflectiveEqual(expected, actual, expectedVisited: &expectedVisited, actualVisited: &actualVisited,
                             expectedDescription: "", actualDescription: "", depth: 0,
@@ -50,8 +50,8 @@ private func appendItemDescription(_ item: Any, previousDescription: String, dep
 
 private func MCAssertReflectiveEqual(_ expected: Any,
                                      _ actual: Any,
-                                     expectedVisited: inout [AnyObject],
-                                     actualVisited: inout [AnyObject],
+                                     expectedVisited: inout Set<ObjectIdentifier>,
+                                     actualVisited: inout Set<ObjectIdentifier>,
                                      expectedDescription: String,
                                      actualDescription: String,
                                      depth: Int,
@@ -110,24 +110,18 @@ private func MCAssertReflectiveEqual(_ expected: Any,
             if(canHoldChildrenByReference) {
                 let expectedChildAsObject = expectedChild.value as AnyObject
                 let actualChildAsObject = actualChild.value as AnyObject
-                let indexOfExpectedChildIfAlreadyVisited = expectedVisited.index(where: { (obj) -> Bool in
-                    return obj === expectedChildAsObject
-                })
-                let indexOfActualChildIfAlreadyVisited = actualVisited.index(where: { (obj) -> Bool in
-                    return obj === actualChildAsObject
-                })
+                let expectedHasBeenVisited = !expectedVisited.insert(ObjectIdentifier(expectedChildAsObject)).inserted
+                let actualHasBeenVisited = !actualVisited.insert(ObjectIdentifier(actualAsObject)).inserted
                 
-                if(indexOfActualChildIfAlreadyVisited != nil || indexOfExpectedChildIfAlreadyVisited != nil) {
-                    if(indexOfActualChildIfAlreadyVisited == indexOfExpectedChildIfAlreadyVisited && indexOfExpectedChildIfAlreadyVisited != nil) {
+                if(expectedHasBeenVisited || actualHasBeenVisited) {
+                    if(expectedHasBeenVisited == actualHasBeenVisited) {
                         print("\(expectedDescription)\nand\(actualDescription)\n are matching looping objects")
                         return
                     } else {
                         failFunction("failed to compare\n\(expectedDescription)\n and \n\(actualDescription)\nlooping objects", file, line)
+                        return
                     }
                 }
-                
-                expectedVisited.append(expectedChildAsObject)
-                actualVisited.append(actualChildAsObject)
             }
             
             
@@ -143,10 +137,9 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                                     optionalStringEqualsFunction: optionalStringEqualsFunction,
                                     failFunction: failFunction)
             if(canHoldChildrenByReference) {
-                _ = expectedVisited.popLast()
-                _ = actualVisited.popLast()
+                _ = expectedVisited.remove(ObjectIdentifier(expectedChild.value as AnyObject))
+                _ = actualVisited.remove(ObjectIdentifier(actualChild.value as AnyObject))
             }
-            
         }
     }
 }
