@@ -21,6 +21,12 @@ private let failFunction: MCFailFunction = { (message, file, line) in
 
 public func MCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
                                     file: StaticString = #file,
+                                    line: UInt = #line) {
+    internalMCAssertReflectiveEqual(expected, actual, file: file, line: line)
+}
+
+internal func internalMCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
+                                    file: StaticString = #file,
                                     line: UInt = #line,
                                     nsObjectCheckFunction: MCNSObjectEqualsFunction = NSObjectEqualsFunction,
                                     optionalStringEqualsFunction: MCOptionalStringEqualsFunction = optionalStringEqualsFunction,
@@ -125,7 +131,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
             }
             
             
-            optionalStringEqualsFunction(expectedChild.label, actualChild.label, "\(expectedDescription): \(expectedChild.label) not equal to \n\(actualDescription): \(actualChild.label)", file, line)
+            optionalStringEqualsFunction(expectedChild.label, actualChild.label, "\(expectedDescription): \(String(describing: expectedChild.label)) not equal to \n\(actualDescription): \(String(describing: actualChild.label))", file, line)
             
             MCAssertReflectiveEqual(expectedChild.value, actualChild.value,
                                     expectedVisited: &expectedVisited, actualVisited: &actualVisited,

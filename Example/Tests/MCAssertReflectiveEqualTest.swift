@@ -1,6 +1,6 @@
 import Foundation
 import XCTest
-import MCAssertReflectiveEqual
+@testable import MCAssertReflectiveEqual
 
  class MCAssertReflectiveEqualTest : XCTestCase {
     
@@ -229,7 +229,7 @@ import MCAssertReflectiveEqual
     
     
     private func areEqual<T>(_ expected: T, _ actual: T) -> Bool {
-        MCAssertReflectiveEqual(expected, actual,
+        internalMCAssertReflectiveEqual(expected, actual,
                           nsObjectCheckFunction: nsObjectCheckFunction,
                           optionalStringEqualsFunction: optionalStringFunction,
                           failFunction: failFunction)
