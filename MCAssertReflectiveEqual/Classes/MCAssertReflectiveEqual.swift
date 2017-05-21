@@ -1,31 +1,50 @@
 import Foundation
 import XCTest
 
-typealias MCNSObjectEqualsFunction = (NSObject, NSObject, String, StaticString, UInt) -> Void
+internal typealias MCNSObjectEqualsFunction = (NSObject, NSObject, String, StaticString, UInt) -> Void
 
 private let NSObjectEqualsFunction:MCNSObjectEqualsFunction = { (expected, actual, message, file, line) in
     XCTAssertEqual(expected, actual, message, file: file, line: line)
 }
 
-typealias MCOptionalStringEqualsFunction = (String?, String?, String, StaticString, UInt) -> Void
+internal typealias MCOptionalStringEqualsFunction = (String?, String?, String, StaticString, UInt) -> Void
 
 private let optionalStringEqualsFunction: MCOptionalStringEqualsFunction = { (expected, actual, message, file, line) in
     XCTAssertEqual(expected, actual, message, file: file, line: line)
 }
 
-typealias MCFailFunction = (String, StaticString, UInt) -> Void
+internal typealias MCFailFunction = (String, StaticString, UInt) -> Void
 
 private let failFunction: MCFailFunction = { (message, file, line) in
     XCTFail(message, file: file, line: line)
 }
 
+public class Matcher {
+    fileprivate let type: Any
+    fileprivate let comparator: (Any, Any) -> Bool
+    
+    init<T>(type: T.Type, comparator: @escaping (T, T) -> Bool) {
+        self.type = type;
+        self.comparator = { (a, b) -> Bool in
+            return comparator(a as! T, b as! T)
+        }
+    }
+}
+
+public func matcherFor<T>(_ type: T.Type, _ comparator: @escaping (_ expected: T, _ actual: T) -> Bool) -> Matcher{
+    return Matcher(type: type, comparator: comparator)
+}
+
+
 public func MCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
+                                    customMatchers: [Matcher] = [],
                                     file: StaticString = #file,
                                     line: UInt = #line) {
-    internalMCAssertReflectiveEqual(expected, actual, file: file, line: line)
+    internalMCAssertReflectiveEqual(expected, actual, customMatchers: customMatchers, file: file, line: line)
 }
 
 internal func internalMCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
+                                              customMatchers: [Matcher],
                                     file: StaticString = #file,
                                     line: UInt = #line,
                                     nsObjectCheckFunction: MCNSObjectEqualsFunction = NSObjectEqualsFunction,
@@ -34,8 +53,18 @@ internal func internalMCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
     var expectedVisited = Set<ObjectIdentifier>()
     var actualVisited = Set<ObjectIdentifier>()
     
+    let matchersByType:[String: (Any, Any) -> Bool] = customMatchers.reduce([String:(Any, Any) -> Bool]()) { (result, matcher) in
+        dump(matcher)
+        var mutableResult = result
+        var desc = String()
+        dump(matcher.type, to: &desc)
+        mutableResult[desc] = matcher.comparator
+        return mutableResult
+    }
+    
     MCAssertReflectiveEqual(expected, actual, expectedVisited: &expectedVisited, actualVisited: &actualVisited,
                             expectedDescription: "", actualDescription: "", depth: 0,
+                            matchersByType: matchersByType,
                             file: file, line: line,
                             nsObjectCheckFunction: nsObjectCheckFunction,
                             optionalStringEqualsFunction: optionalStringEqualsFunction,
@@ -61,6 +90,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                                      expectedDescription: String,
                                      actualDescription: String,
                                      depth: Int,
+                                     matchersByType: [String: (Any, Any) -> Bool],
                                      file: StaticString,
                                      line: UInt,
                                      nsObjectCheckFunction: MCNSObjectEqualsFunction,
@@ -74,6 +104,16 @@ private func MCAssertReflectiveEqual(_ expected: Any,
     
     guard expectedMirror.subjectType == actualMirror.subjectType else {
         failFunction( "Types not the same expected: \(expectedDescription) is a \(expectedMirror.subjectType) \ngot:\n\(actualDescription) which is a \(actualMirror.subjectType)", file, line)
+        return
+    }
+    
+    var typeAsString = String()
+    dump(expectedMirror.subjectType, to: &typeAsString)
+    
+    if let matcher = matchersByType[typeAsString] {
+        if(!matcher(expected, actual)) {
+            failFunction("\(expectedDescription)\nnot equal to\n\(actualDescription) using custom matcher", file, line)
+        }
         return
     }
     
@@ -138,6 +178,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                                     expectedDescription: expectedDescription,
                                     actualDescription: actualDescription,
                                     depth: depth + 1,
+                                    matchersByType: matchersByType,
                                     file: file, line: line,
                                     nsObjectCheckFunction: nsObjectCheckFunction,
                                     optionalStringEqualsFunction: optionalStringEqualsFunction,

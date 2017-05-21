@@ -64,6 +64,34 @@ import XCTest
         equal = actual == expected
     }
     
+    func testWillUseCustomMatcherToSayDoublesCloseToEachOther() {
+        struct DoubleHolder {
+            private let val: Double
+            
+            init(val: Double) {
+                self.val = val
+            }
+        }
+        
+        let first = DoubleHolder(val: 1.00001)
+        let second = DoubleHolder(val: 1.00002)
+        
+        XCTAssertFalse(areEqual(first, second))
+        equal = nil
+        let matcher = matcherFor(Double.self, { (one, two) in
+            return abs(one - two) < 0.001
+        })
+        
+        XCTAssertTrue(areEqual(first, second, customMatchers: [matcher]))
+    }
+    
+    func testWillUseCustomMatcherToSayDifferentIntsAreEqual() {
+        let matcher = matcherFor(Int.self, {(one, two) -> Bool in
+            return true
+        })
+        XCTAssertTrue(areEqual(1, 2, customMatchers: [matcher]))
+    }
+    
     func testTwoNumbersAreEqual() {
         XCTAssertTrue(areEqual(1, 1))
     }
@@ -228,11 +256,11 @@ import XCTest
     }
     
     
-    private func areEqual<T>(_ expected: T, _ actual: T) -> Bool {
-        internalMCAssertReflectiveEqual(expected, actual,
-                          nsObjectCheckFunction: nsObjectCheckFunction,
-                          optionalStringEqualsFunction: optionalStringFunction,
-                          failFunction: failFunction)
+    private func areEqual<T>(_ expected: T, _ actual: T, customMatchers: [Matcher] = []) -> Bool {
+        internalMCAssertReflectiveEqual(expected, actual, customMatchers: customMatchers,
+                                        nsObjectCheckFunction: nsObjectCheckFunction,
+                                        optionalStringEqualsFunction: optionalStringFunction,
+                                        failFunction: failFunction)
         return equal ?? true
     }
 }
