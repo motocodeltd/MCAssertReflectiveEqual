@@ -36,14 +36,14 @@ public func matcherFor<T>(_ type: T.Type, _ comparator: @escaping (_ expected: T
 }
 
 public func MCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
-                                       customMatchers: [Matcher] = [],
+                                       matchers: [Matcher] = [],
                                        file: StaticString = #file,
                                        line: UInt = #line) {
-    internalMCAssertReflectiveEqual(expected, actual, customMatchers: customMatchers, file: file, line: line)
+    internalMCAssertReflectiveEqual(expected, actual, matchers: matchers, file: file, line: line)
 }
 
 internal func internalMCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
-                                                 customMatchers: [Matcher],
+                                                 matchers: [Matcher],
                                                  file: StaticString = #file,
                                                  line: UInt = #line,
                                                  nsObjectCheckFunction: MCNSObjectEqualsFunction = NSObjectEqualsFunction,
@@ -52,7 +52,7 @@ internal func internalMCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
     var expectedVisited = Set<ObjectIdentifier>()
     var actualVisited = Set<ObjectIdentifier>()
 
-    let matchersByType: [String: (Any, Any) -> Bool] = customMatchers.reduce([String: (Any, Any) -> Bool]()) { (result, matcher) in
+    let matchersByType: [String: (Any, Any) -> Bool] = matchers.reduce([String: (Any, Any) -> Bool]()) { (result, matcher) in
         dump(matcher)
         var mutableResult = result
         var desc = String()

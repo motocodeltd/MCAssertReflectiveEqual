@@ -65,12 +65,12 @@ let camdenTown = CLLocation(latitude: 51.5390, longitude: 0.1426)
 let closeToCamdenTown = CLLocation(latitude: 51.5391, longitude: 0.1427)
     
 let matcher = matcherFor(CLLocation.self, { (expected, actual) in
-                    return expected.distance(from: actual) < 100
+                    return expected.distance(from: actual) < 100 //close enough
               }) 
     
 MCAssertReflectiveEqual(FavouriteLocation(user: "bob", location: closeToCamdenTown), 
                         FavouriteLocation(user: "bob", location: camdenTown), 
-                        customMatchers: [matcher])        
+                        matchers: [matcher])        
 ```
 More examples in [MCAssertReflectiveEqualTest.swift](Example/Tests/MCAssertReflectiveEqualTest.swift)
 

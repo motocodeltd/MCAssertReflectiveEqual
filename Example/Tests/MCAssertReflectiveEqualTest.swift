@@ -88,14 +88,14 @@ import XCTest
             return abs(one - two) < 0.001
         })
         
-        XCTAssertTrue(areEqual(first, second, customMatchers: [matcher]))
+        XCTAssertTrue(areEqual(first, second, matchers: [matcher]))
     }
     
     func testWillUseCustomMatcherToSayDifferentIntsAreEqual() {
         let matcher = matcherFor(Int.self, {(one, two) -> Bool in
             return true
         })
-        XCTAssertTrue(areEqual(1, 2, customMatchers: [matcher]))
+        XCTAssertTrue(areEqual(1, 2, matchers: [matcher]))
     }
     
     func testTwoNumbersAreEqual() {
@@ -262,8 +262,8 @@ import XCTest
     }
     
     
-    private func areEqual<T>(_ expected: T, _ actual: T, customMatchers: [Matcher] = []) -> Bool {
-        internalMCAssertReflectiveEqual(expected, actual, customMatchers: customMatchers,
+    private func areEqual<T>(_ expected: T, _ actual: T, matchers: [Matcher] = []) -> Bool {
+        internalMCAssertReflectiveEqual(expected, actual, matchers: matchers,
                                         nsObjectCheckFunction: nsObjectCheckFunction,
                                         optionalStringEqualsFunction: optionalStringFunction,
                                         failFunction: failFunction)
