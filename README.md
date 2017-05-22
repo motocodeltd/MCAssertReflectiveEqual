@@ -13,7 +13,7 @@ neither equals functions that your production code does not require, nor assert 
  
  MCAssertReflectiveEquals works on primitives, structs, classes and enums. It gives you a nice error message
  when items do not match. It deeply compares items and handles recursive loops (A -> B -> A, 
- where A & B are objects and -> is a references). It makes tests easier.
+ where A & B are objects and -> is a references). It just makes tests easier.
 
 ## Example
 
@@ -45,7 +45,37 @@ class ClassWithValTest : XCTestCase {
 
 ```
 
+## Custom Matchers
+
+Sometimes simple reflective matching is not good enough. Imagine a complex data structure that contains a geographical coordinate, a CLLocation. We may not be interested that our expected value is identical to the value produced by the system under test, only that they are close enough. Here's how we go about that:
+
+```swift
+class FavouriteLocation {
+    let user: String
+    let location: CLLocation
+    
+    init(user: String, location: CLLocation) {
+        self.user = user
+        self.location = location
+    }
+}
+    
+let camdenTown = CLLocation(latitude: 51.5390, longitude: 0.1426)
+    
+let closeToCamdenTown = CLLocation(latitude: 51.5391, longitude: 0.1427)
+    
+let matcher = matcherFor(CLLocation.self, { (expected, actual) in
+                    return expected.distance(from: actual) < 100
+              }) 
+    
+MCAssertReflectiveEqual(FavouriteLocation(user: "bob", location: closeToCamdenTown), 
+                        FavouriteLocation(user: "bob", location: camdenTown), 
+                        customMatchers: [matcher])        
+```
 More examples in [MCAssertReflectiveEqualTest.swift](Example/Tests/MCAssertReflectiveEqualTest.swift)
+
+## Development
+The development of MCAssertReflectiveEqual is described [here](https://moto.co.de/blog/writing_reflective_test_assertions_with_swift.html)
 
 ## Installation
 
