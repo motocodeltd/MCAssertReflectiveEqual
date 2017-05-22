@@ -64,6 +64,12 @@ import XCTest
         equal = actual == expected
     }
     
+    func testWillCompareItemToNil() {
+        let a:String? = nil
+        let b = "bob"
+        XCTAssertFalse(areEqual(a, b))
+    }
+    
     func testWillUseCustomMatcherToSayDoublesCloseToEachOther() {
         struct DoubleHolder {
             private let val: Double
