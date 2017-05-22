@@ -72,6 +72,25 @@ MCAssertReflectiveEqual(FavouriteLocation(user: "bob", location: closeToCamdenTo
                         FavouriteLocation(user: "bob", location: camdenTown), 
                         matchers: [matcher])        
 ```
+
+### Provided matchers
+For convenience, a matcher for doubles with defined accuracy is provided. Instantiate it with
+ 
+ ```swift
+ let accuracy = 0.001
+ 
+ let matcher = matchDoubles(withAccuracy: accuracy)
+ 
+ let expected = 0.01
+ let actual = 0.01
+ 
+ MCAssertReflectiveEqual(expected, actual) //fails
+ 
+ MCAssertReflectiveEqual(expected, actual, matchers: [matcher]) //passes
+ 
+
+```
+
 More examples in [MCAssertReflectiveEqualTest.swift](Example/Tests/MCAssertReflectiveEqualTest.swift)
 
 ## Development
