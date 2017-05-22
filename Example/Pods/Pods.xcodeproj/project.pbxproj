@@ -11,6 +11,7 @@
 		443C2AD81E2E070B00E386EA /* MCAssertReflectiveEqual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443C2AD71E2E070B00E386EA /* MCAssertReflectiveEqual.swift */; };
 		74E88A9D3CE11882CEAB79B0DBA3237F /* Pods-MCAssertReflectiveEqual_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F65A9DCCB7F30CA042A4CFA5F2A83725 /* Pods-MCAssertReflectiveEqual_Tests-dummy.m */; };
 		8933338CA300FB60AF16868C12CA32D7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32DF21EF8268E32D359CD23F2CF3EFE3 /* Foundation.framework */; };
+		8B0952AEAF15984EFADA4E35 /* Matchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0956E67450170E5940E10C /* Matchers.swift */; };
 		96B709731F01094162E64600C9F6547F /* Pods-MCAssertReflectiveEqual_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CC23F408BCEFEE8F7668397E10ECD0C1 /* Pods-MCAssertReflectiveEqual_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A172C8C01AA1A3BCB8C75E56B7FC0462 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32DF21EF8268E32D359CD23F2CF3EFE3 /* Foundation.framework */; };
 		F340EBC0C98EEEF48463ABC0D7494C43 /* MCAssertReflectiveEqual-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F049BD09484491B5F9F26F1EE7F25F9B /* MCAssertReflectiveEqual-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -38,6 +39,7 @@
 		76958039FB300CF89904B5D58BDD2290 /* Pods-MCAssertReflectiveEqual_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MCAssertReflectiveEqual_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		781E01C4B822887118448813B9C0B4D4 /* MCAssertReflectiveEqual.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MCAssertReflectiveEqual.xcconfig; sourceTree = "<group>"; };
 		7F753D63AB90B520D542D81833C663BA /* MCAssertReflectiveEqual-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MCAssertReflectiveEqual-dummy.m"; sourceTree = "<group>"; };
+		8B0956E67450170E5940E10C /* Matchers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matchers.swift; sourceTree = "<group>"; };
 		8B729FC1EB0CC25A63977328B5850104 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		932A0CFF214E07F8BAADE75F5AA603E4 /* MCAssertReflectiveEqual-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MCAssertReflectiveEqual-prefix.pch"; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -85,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				443C2AD71E2E070B00E386EA /* MCAssertReflectiveEqual.swift */,
+				8B0956E67450170E5940E10C /* Matchers.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 			files = (
 				F981BB106B71FF50544FB023AE3DEBAC /* MCAssertReflectiveEqual-dummy.m in Sources */,
 				443C2AD81E2E070B00E386EA /* MCAssertReflectiveEqual.swift in Sources */,
+				8B0952AEAF15984EFADA4E35 /* Matchers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		607FACEC1AFB9204008FA782 /* MCAssertReflectiveEqualTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* MCAssertReflectiveEqualTest.swift */; };
 		6D0F3B808A9FA89C82E03D80 /* Pods_MCAssertReflectiveEqual_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77282D7352FC8B6DCC9221BA /* Pods_MCAssertReflectiveEqual_Tests.framework */; };
+		8B0950DE2696D1831BFA3AAA /* Tester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0950C48B8500C5CBC929D6 /* Tester.swift */; };
+		8B09567A11C15188F78269AB /* MatchersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B095AB62A033894BE7A5DFC /* MatchersTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +20,8 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* MCAssertReflectiveEqualTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCAssertReflectiveEqualTest.swift; sourceTree = "<group>"; };
 		77282D7352FC8B6DCC9221BA /* Pods_MCAssertReflectiveEqual_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MCAssertReflectiveEqual_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B0950C48B8500C5CBC929D6 /* Tester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tester.swift; sourceTree = "<group>"; };
+		8B095AB62A033894BE7A5DFC /* MatchersTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchersTest.swift; sourceTree = "<group>"; };
 		B4021D660BBA1DA2C7A7E12B /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		EBD8E610E4947F9E64A6D4E6 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		FFA6241C973C371BFC601589 /* Pods-MCAssertReflectiveEqual_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCAssertReflectiveEqual_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCAssertReflectiveEqual_Tests/Pods-MCAssertReflectiveEqual_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -68,6 +72,8 @@
 			children = (
 				607FACEB1AFB9204008FA782 /* MCAssertReflectiveEqualTest.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				8B095AB62A033894BE7A5DFC /* MatchersTest.swift */,
+				8B0950C48B8500C5CBC929D6 /* Tester.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -220,6 +226,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACEC1AFB9204008FA782 /* MCAssertReflectiveEqualTest.swift in Sources */,
+				8B09567A11C15188F78269AB /* MatchersTest.swift in Sources */,
+				8B0950DE2696D1831BFA3AAA /* Tester.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
