@@ -1,272 +1,246 @@
+//
+// Created by Stefanos Zachariadis first name at last name dot net
+// Copyright (c) 2017 motocode ltd. All rights reserved. MIT license
+//
+
 import Foundation
 import XCTest
-@testable import MCAssertReflectiveEqual
+import MCAssertReflectiveEqual
 
- class MCAssertReflectiveEqualTest : XCTestCase {
+class MCAssertReflectiveEqualTest: XCTestCase {
+
+    private let tester = Tester()
     
     private enum MyEnum {
         case A, B
     }
-    
+
     private struct EmptyStruct {
-        
+
     }
-    
+
     private class EmptyClass {
-        
+
     }
-    
+
     private class Loopy {
-        var loop:Loopy?
+        var loop: Loopy?
     }
-    
+
     private struct LoopyStruct {
         var loop: Any?
     }
-    
+
     private class ClassWithVal {
         var val: Int
-        
+
         init(_ val: Int) {
             self.val = val
         }
     }
-    
+
     private struct StructWithVal {
         var val: Int
-        
+
         init(_ val: Int) {
             self.val = val
         }
     }
-    
-    private var equal:Bool?
-    
-    private func failFunction(message: String, file: StaticString, line: UInt) {
-        equal = false
-    }
-    
-    private func nsObjectCheckFunction(expected: NSObject, actual: NSObject, message: String, file: StaticString, line: UInt) {
-        if let equal = equal {
-            if(!equal) {
-                return
-            }
-        }
-        equal = actual == expected
-    }
-    
-    private func optionalStringFunction(expected: String?, actual: String?, message: String, file: StaticString, line: UInt) {
-        if let equal = equal {
-            if(!equal) {
-                return
-            }
-        }
-        equal = actual == expected
-    }
-    
+
     func testWillCompareItemToNil() {
-        let a:String? = nil
+        let a: String? = nil
         let b = "bob"
-        XCTAssertFalse(areEqual(a, b))
+        XCTAssertFalse(tester.areEqual(a, b))
     }
-    
+
     func testWillUseCustomMatcherToSayDoublesCloseToEachOther() {
+
         struct DoubleHolder {
             private let val: Double
-            
+
             init(val: Double) {
                 self.val = val
             }
         }
-        
+
         let first = DoubleHolder(val: 1.00001)
         let second = DoubleHolder(val: 1.00002)
-        
-        XCTAssertFalse(areEqual(first, second))
-        equal = nil
+
+        XCTAssertFalse(tester.areEqual(first, second))
         let matcher = matcherFor(Double.self, { (one, two) in
             return abs(one - two) < 0.001
         })
-        
-        XCTAssertTrue(areEqual(first, second, matchers: [matcher]))
+
+        XCTAssertTrue(tester.areEqual(first, second, matchers: [matcher]))
     }
-    
+
     func testWillUseCustomMatcherToSayDifferentIntsAreEqual() {
-        let matcher = matcherFor(Int.self, {(one, two) -> Bool in
+        let matcher = matcherFor(Int.self, { (one, two) -> Bool in
             return true
         })
-        XCTAssertTrue(areEqual(1, 2, matchers: [matcher]))
+        XCTAssertTrue(tester.areEqual(1, 2, matchers: [matcher]))
     }
-    
+
     func testTwoNumbersAreEqual() {
-        XCTAssertTrue(areEqual(1, 1))
+        XCTAssertTrue(tester.areEqual(1, 1))
     }
-    
+
     func testTwoNumbersAreNotEqual() {
-        XCTAssertFalse(areEqual(1, 2))
+        XCTAssertFalse(tester.areEqual(1, 2))
     }
-    
+
     func testTwoEmptyArraysAreEqual() {
-        XCTAssertTrue(areEqual([], []))
+        XCTAssertTrue(tester.areEqual([], []))
     }
-    
+
     func testTwoArraysAreEqual() {
-        XCTAssertTrue(areEqual([1], [1]))
+        XCTAssertTrue(tester.areEqual([1], [1]))
     }
-    
+
     func testTwoArraysOfDifferentSizeNotEqual() {
-        XCTAssertFalse(areEqual([1], [1, 2]))
+        XCTAssertFalse(tester.areEqual([1], [1, 2]))
     }
-    
+
     func testTwoArraysAreNotEqual() {
-        XCTAssertFalse(areEqual([1], [2]))
+        XCTAssertFalse(tester.areEqual([1], [2]))
     }
-    
+
     func testTwoNilsOfSameTypeAreEqual() {
-        let a:String? = nil
-        let b:String? = nil
-        XCTAssertTrue(areEqual(a, b))
+        let a: String? = nil
+        let b: String? = nil
+        XCTAssertTrue(tester.areEqual(a, b))
     }
-    
+
     func testTwoNilsOfDifferentTypeCoeercedAreNotEqual() {
-        let a:String? = nil
-        let b:Int? = nil
-        XCTAssertFalse(areEqual(a as Any, b as Any))
+        let a: String? = nil
+        let b: Int? = nil
+        XCTAssertFalse(tester.areEqual(a as Any, b as Any))
     }
-    
+
     func testANilIsNotEqualToAValue() {
-        let a:String? = nil
-        let b:String? = "bob"
-        XCTAssertFalse(areEqual(a, b))
+        let a: String? = nil
+        let b: String? = "bob"
+        XCTAssertFalse(tester.areEqual(a, b))
     }
-    
+
     func testOptionalsAreEqual() {
-        let a:String? = "bob"
-        let b:String? = "bob"
-        XCTAssertTrue(areEqual(a, b))
+        let a: String? = "bob"
+        let b: String? = "bob"
+        XCTAssertTrue(tester.areEqual(a, b))
     }
-    
+
     func testOptionalsAreNotEqual() {
-        let a:String? = "bob"
-        let b:String? = "robert"
-        XCTAssertFalse(areEqual(a, b))
+        let a: String? = "bob"
+        let b: String? = "robert"
+        XCTAssertFalse(tester.areEqual(a, b))
     }
-    
+
     func testEmptyDictionariesAreEqual() {
-        XCTAssertTrue(areEqual([:], [:]))
+        XCTAssertTrue(tester.areEqual([:], [:]))
     }
-    
+
     func testDictionariesAreEqual() {
-        XCTAssertTrue(areEqual(["a":"b"], ["a":"b"]))
+        XCTAssertTrue(tester.areEqual(["a": "b"], ["a": "b"]))
     }
-    
+
     func testDictionariesAreNotEqual() {
-        XCTAssertFalse(areEqual(["a":"b"], ["c":"d"]))
+        XCTAssertFalse(tester.areEqual(["a": "b"], ["c": "d"]))
     }
-    
+
     func testOrderDoesNotMatterForDictionaries() {
-        var a:[String:String] = [:]
-        var b:[String:String] = [:]
+        var a: [String: String] = [:]
+        var b: [String: String] = [:]
         a["a"] = "b"
         a["b"] = "a"
-        
+
         b["b"] = "a"
         b["a"] = "b"
-        
-        XCTAssertTrue(areEqual(a, b))
+
+        XCTAssertTrue(tester.areEqual(a, b))
     }
-    
+
     func testTwoEmptyObjectsAreEqual() {
-        XCTAssertTrue(areEqual(EmptyClass(), EmptyClass()))
+        XCTAssertTrue(tester.areEqual(EmptyClass(), EmptyClass()))
     }
-    
+
     func testSameObjectIsEqual() {
         let obj = ClassWithVal(1)
-        XCTAssertTrue(areEqual(obj, obj))
+        XCTAssertTrue(tester.areEqual(obj, obj))
     }
-    
+
     func testTwoObjectsAreEqual() {
-        XCTAssertTrue(areEqual(ClassWithVal(1), ClassWithVal(1)))
+        XCTAssertTrue(tester.areEqual(ClassWithVal(1), ClassWithVal(1)))
     }
-    
+
     func testTwoObjectsAreNotEqual() {
-        XCTAssertFalse(areEqual(ClassWithVal(1), ClassWithVal(2)))
+        XCTAssertFalse(tester.areEqual(ClassWithVal(1), ClassWithVal(2)))
     }
-    
-    
+
+
     func testSameFunctionTwiceIsEqual() {
         func a() {
-            
+
         }
-        
-        XCTAssertTrue(areEqual(a, a))
+
+        XCTAssertTrue(tester.areEqual(a, a))
     }
-    
+
     func testClosureEquality() {
         let a = {
-            
+
         }
-        XCTAssertTrue(areEqual(a, a))
+        XCTAssertTrue(tester.areEqual(a, a))
     }
-    
+
     func testTwoTuplesAreEqual() {
-        XCTAssertTrue(areEqual((1, 2), (1, 2)))
+        XCTAssertTrue(tester.areEqual((1, 2), (1, 2)))
     }
-    
+
     func testTwoTuplesAreNotEqual() {
-        XCTAssertFalse(areEqual((1, 1), (1, 2)))
+        XCTAssertFalse(tester.areEqual((1, 1), (1, 2)))
     }
-    
+
     func testTwoTuplesOfDifferentSizesCoercedAreNotEqual() {
-        XCTAssertFalse(areEqual((1, 2, 1) as Any, (1, 2) as Any))
+        XCTAssertFalse(tester.areEqual((1, 2, 1) as Any, (1, 2) as Any))
     }
-    
+
     func testTwoEmptyStructsAreEqual() {
-        XCTAssertTrue(areEqual(EmptyStruct(), EmptyStruct()))
+        XCTAssertTrue(tester.areEqual(EmptyStruct(), EmptyStruct()))
     }
-    
+
     func testTwoStructsWithValAreEqual() {
-        XCTAssertTrue(areEqual(StructWithVal(1), StructWithVal(1)))
+        XCTAssertTrue(tester.areEqual(StructWithVal(1), StructWithVal(1)))
     }
-    
+
     func testTwoStructsWithValAreNotEqual() {
-        XCTAssertFalse(areEqual(StructWithVal(3), StructWithVal(1)))
+        XCTAssertFalse(tester.areEqual(StructWithVal(3), StructWithVal(1)))
     }
-    
+
     func testTwoEnumsAreEqual() {
-        XCTAssertTrue(areEqual(MyEnum.A, MyEnum.A))
+        XCTAssertTrue(tester.areEqual(MyEnum.A, MyEnum.A))
     }
-    
+
     func testTwoEnumsAreNotEqual() {
-        XCTAssertFalse(areEqual(MyEnum.A, MyEnum.B))
+        XCTAssertFalse(tester.areEqual(MyEnum.A, MyEnum.B))
     }
-    
+
     func testMatchingLoops() {
         let a = Loopy()
         a.loop = a
-        
+
         let b = Loopy()
         b.loop = b
-        
-        XCTAssertTrue(areEqual(a, b))
+
+        XCTAssertTrue(tester.areEqual(a, b))
     }
-    
+
     func testStructLoops() {
         var a = LoopyStruct()
         a.loop = a
-        
+
         var b = LoopyStruct()
         b.loop = b
-        
-        XCTAssertTrue(areEqual(a, b))
-    }
-    
-    
-    private func areEqual<T>(_ expected: T, _ actual: T, matchers: [Matcher] = []) -> Bool {
-        internalMCAssertReflectiveEqual(expected, actual, matchers: matchers,
-                                        nsObjectCheckFunction: nsObjectCheckFunction,
-                                        optionalStringEqualsFunction: optionalStringFunction,
-                                        failFunction: failFunction)
-        return equal ?? true
+
+        XCTAssertTrue(tester.areEqual(a, b))
     }
 }

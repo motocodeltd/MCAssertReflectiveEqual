@@ -1,3 +1,8 @@
+//
+// Created by Stefanos Zachariadis first name at last name dot net
+// Copyright (c) 2017 motocode ltd. All rights reserved. MIT license
+//
+
 import Foundation
 import XCTest
 
