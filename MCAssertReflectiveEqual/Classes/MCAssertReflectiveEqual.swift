@@ -58,7 +58,6 @@ internal func internalMCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
     var actualVisited = Set<ObjectIdentifier>()
 
     let matchersByType: [String: (Any, Any) -> Bool] = matchers.reduce([String: (Any, Any) -> Bool]()) { (result, matcher) in
-        dump(matcher)
         var mutableResult = result
         var desc = String()
         dump(matcher.type, to: &desc)
