@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="MCAssertReflectiveEqual_Tests" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MCAssertReflectiveEqual" TARGET_NAME="MCAssertReflectiveEqual_Tests" CONFIG_NAME="Debug" SCHEME_NAME="MCAssertReflectiveEqual_Tests" TEST_MODE="SUITE_TEST" XCODE_SKIPPED_TESTS_HASH_CODE="0">
+    <envs />
+    <method />
+  </configuration>
+</component>

@@ -10,5 +10,5 @@ language: objective-c
 # - gem install cocoapods # Since Travis is not always on latest version
 # - pod install --project-directory=Example
 script:
-- set -o pipefail && xcodebuild test -workspace Example/MCAssertReflectiveEqual.xcworkspace -scheme MCAssertReflectiveEqual-Example -sdk iphonesimulator10.3 -destination "platform=iOS Simulator,OS=10.2" ONLY_ACTIVE_ARCH=NO | xcpretty
+- set -o pipefail && xcodebuild test -workspace Example/MCAssertReflectiveEqual.xcworkspace -scheme MCAssertReflectiveEqual_Tests -sdk iphonesimulator10.3 -destination "platform=iOS Simulator,id=574DAFE4-A959-4ACD-8D60-511188465805,OS=10.3" ONLY_ACTIVE_ARCH=NO | xcpretty
 - pod lib lint
