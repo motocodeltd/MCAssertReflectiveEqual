@@ -14,6 +14,9 @@ neither equals functions that your production code does not require, nor assert 
  MCAssertReflectiveEquals works on primitives, structs, classes and enums. It gives you a nice error message
  when items do not match. It deeply compares items and handles recursive loops (A -> B -> A, 
  where A & B are objects and -> is a references). It just makes tests easier.
+ 
+ The development of MCAssertReflectiveEqual is described [here](https://moto.co.de/blog/writing_reflective_test_assertions_with_swift.html).
+
 
 ## Example
 
@@ -92,9 +95,6 @@ For convenience, a matcher for doubles with defined accuracy is provided. Instan
 ```
 
 More examples in [MCAssertReflectiveEqualTest.swift](Example/Tests/MCAssertReflectiveEqualTest.swift)
-
-## Development
-The development of MCAssertReflectiveEqual is described [here](https://moto.co.de/blog/writing_reflective_test_assertions_with_swift.html)
 
 ## Installation
 
