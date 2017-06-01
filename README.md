@@ -1,6 +1,6 @@
 # MCAssertReflectiveEqual
 
-[![CI Status](http://img.shields.io/travis/motocodeltd/MCAssertReflectiveEqual.svg?style=flat)](https://travis-ci.org/motocoteltd/MCAssertReflectiveEqual)
+[![CI Status](http://img.shields.io/travis/motocodeltd/MCAssertReflectiveEqual.svg?style=flat)](https://travis-ci.org/motocodeltd/MCAssertReflectiveEqual)
 [![Version](https://img.shields.io/cocoapods/v/MCAssertReflectiveEqual.svg?style=flat)](http://cocoapods.org/pods/MCAssertReflectiveEqual)
 [![License](https://img.shields.io/cocoapods/l/MCAssertReflectiveEqual.svg?style=flat)](http://cocoapods.org/pods/MCAssertReflectiveEqual)
 [![Platform](https://img.shields.io/cocoapods/p/MCAssertReflectiveEqual.svg?style=flat)](http://cocoapods.org/pods/MCAssertReflectiveEqual)
