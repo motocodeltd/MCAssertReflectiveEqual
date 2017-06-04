@@ -85,7 +85,7 @@ For convenience, a matcher for doubles with defined accuracy is provided. Instan
  let matcher = matchDoubles(withAccuracy: accuracy)
  
  let expected = 0.01
- let actual = 0.01
+ let actual = 0.0101
  
  MCAssertReflectiveEqual(expected, actual) //fails
  
