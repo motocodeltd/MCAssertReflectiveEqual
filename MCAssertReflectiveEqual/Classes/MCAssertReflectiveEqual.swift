@@ -65,7 +65,11 @@ internal func internalMCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
         return mutableResult
     }
 
-    MCAssertReflectiveEqual(expected, actual, expectedVisited: &expectedVisited, actualVisited: &actualVisited,
+    let typeMirror = Mirror(reflecting: actual)
+    var typeAsString = String()
+    dump(typeMirror.subjectType, to: &typeAsString)
+
+    MCAssertReflectiveEqual(expected, actual, fieldName: typeAsString, expectedVisited: &expectedVisited, actualVisited: &actualVisited,
             expectedDescription: "", actualDescription: "", depth: 0,
             matchersByType: matchersByType,
             file: file, line: line,
@@ -74,20 +78,19 @@ internal func internalMCAssertReflectiveEqual<T>(_ expected: T, _ actual: T,
             failFunction: failFunction)
 }
 
-private func appendItemDescription(_ item: Any, previousDescription: String, depth: Int) -> String {
+private func appendItemDescription(fieldName: String?, previousDescription: String, depth: Int) -> String {
     let tabs = (0...depth).map({ _ in
         return "\t"
     }).reduce("") { (old, new) -> String in
         return old.appending(new)
     }
 
-    let initialNewLine = depth == 0 ? "" : "\n"
-
-    return "\(initialNewLine)\(tabs) \(item)"
+    return "\(previousDescription)\n\(tabs) \(fieldName?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "[unnamed field]")"
 }
 
 private func MCAssertReflectiveEqual(_ expected: Any,
                                      _ actual: Any,
+                                     fieldName: String?,
                                      expectedVisited: inout Set<ObjectIdentifier>,
                                      actualVisited: inout Set<ObjectIdentifier>,
                                      expectedDescription: String,
@@ -100,8 +103,8 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                                      optionalStringEqualsFunction: MCOptionalStringEqualsFunction,
                                      failFunction: MCFailFunction) {
 
-    let expectedDescription = appendItemDescription(expected, previousDescription: expectedDescription, depth: depth)
-    let actualDescription = appendItemDescription(actual, previousDescription: actualDescription, depth: depth)
+    let expectedDescription = appendItemDescription(fieldName: fieldName, previousDescription: expectedDescription, depth: depth)
+    let actualDescription = appendItemDescription(fieldName: fieldName, previousDescription: actualDescription, depth: depth)
     let expectedMirror = Mirror(reflecting: expected)
     let actualMirror = Mirror(reflecting: actual)
 
@@ -115,7 +118,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
 
     if let matcher = matchersByType[typeAsString] {
         if (!matcher(expected, actual)) {
-            failFunction("\(expectedDescription)\nnot equal to\n\(actualDescription) using custom matcher", file, line)
+            failFunction("\(expectedDescription): \(expected) not equal to \(actual) using custom matcher", file, line)
         }
         return
     }
@@ -137,15 +140,15 @@ private func MCAssertReflectiveEqual(_ expected: Any,
 
     if (expectedChildren.count == 0) {
         if let expectedNsObj = expected as? NSObject, let actualNsObj = actual as? NSObject {
-            nsObjectCheckFunction(expectedNsObj, actualNsObj, "\(expectedDescription)\nnot equal to\n\(actualDescription)", file, line)
+            nsObjectCheckFunction(expectedNsObj, actualNsObj, "\(expectedDescription): \(expectedNsObj) not equal to \(actualNsObj)", file, line)
         } else if (expectedMirror.displayStyle == .struct || expectedMirror.displayStyle == .class) {
             return
         } else if (expectedMirror.displayStyle == .enum) {
-            optionalStringEqualsFunction(String(describing: expected), String(describing: actual), "\(expectedDescription)\nnot equal to\n\(actualDescription)", file, line)
+            optionalStringEqualsFunction(String(describing: expected), String(describing: actual), "\(expectedDescription): \(expected) not equal to \(actual)", file, line)
         } else if (expectedMirror.description.contains("->")) {
-            print("ignoring closures in \n\(expectedDescription)\nand\n\(actualDescription)")
+            print("ignoring closures in \(expectedDescription): \(actual)")
         } else {
-            failFunction("cannot compare\n\(expectedDescription)\n\(actualDescription)", file, line)
+            failFunction("cannot compare\n\(expectedDescription): \(actual)", file, line)
         }
     } else {
         while (!expectedChildren.isEmpty) {
@@ -162,7 +165,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
 
                 if (expectedHasBeenVisited || actualHasBeenVisited) {
                     if (expectedHasBeenVisited == actualHasBeenVisited) {
-                        print("\(expectedDescription)\nand\(actualDescription)\n are matching looping objects")
+                        print("\(expectedDescription)\nand\(actualDescription)\n are matching looping objects \n")
                         return
                     } else {
                         failFunction("failed to compare\n\(expectedDescription)\n and \n\(actualDescription)\nlooping objects", file, line)
@@ -174,7 +177,7 @@ private func MCAssertReflectiveEqual(_ expected: Any,
 
             optionalStringEqualsFunction(expectedChild.label, actualChild.label, "\(expectedDescription): \(String(describing: expectedChild.label)) not equal to \n\(actualDescription): \(String(describing: actualChild.label))", file, line)
 
-            MCAssertReflectiveEqual(expectedChild.value, actualChild.value,
+            MCAssertReflectiveEqual(expectedChild.value, actualChild.value, fieldName: expectedChild.label,
                     expectedVisited: &expectedVisited, actualVisited: &actualVisited,
                     expectedDescription: expectedDescription,
                     actualDescription: actualDescription,
