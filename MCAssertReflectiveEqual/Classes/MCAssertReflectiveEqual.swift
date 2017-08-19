@@ -157,7 +157,9 @@ private func MCAssertReflectiveEqual(_ expected: Any,
 
             let canHoldChildrenByReference = expectedMirror.displayStyle == .class
 
-            if (canHoldChildrenByReference) {
+            let expectedChildType = getUnderlyingType(item: expectedChild.value)
+            let actualChildType = getUnderlyingType(item: actualChild.value)
+            if (canHoldChildrenByReference && expectedChildType == .class && actualChildType == .class) {
                 let expectedChildAsObject = expectedChild.value as AnyObject
                 let actualChildAsObject = actualChild.value as AnyObject
                 let expectedHasBeenVisited = !expectedVisited.insert(ObjectIdentifier(expectedChildAsObject)).inserted
@@ -192,5 +194,19 @@ private func MCAssertReflectiveEqual(_ expected: Any,
                 _ = actualVisited.remove(ObjectIdentifier(actualChild.value as AnyObject))
             }
         }
+    }
+}
+
+private func getUnderlyingType(item: Any) -> Mirror.DisplayStyle? {
+    let mirror = Mirror(reflecting: item)
+    if (mirror.displayStyle == .optional) {
+        if let child = mirror.children.first {
+            let childMirror = Mirror(reflecting: child.value)
+            return childMirror.displayStyle
+        } else {
+            return nil
+        }
+    } else {
+        return mirror.displayStyle
     }
 }
